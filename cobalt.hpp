@@ -55,33 +55,33 @@ typedef std::vector<std::string> Arguments;
  */
 
 // Add padding to a string
-std::string Rpad(std::string string, int size=20) {
+inline std::string Rpad(std::string string, int size=20) {
     while (string.size() < size) string += " ";
     return string;
 }
 
-std::string Ltrim(std::string string) {
+inline std::string Ltrim(std::string string) {
     while (string.size() > 0 && (string[0] == ' ' || string[0] == '\n' || string[0] == '\r' || string[0] == '\t')) string = string.substr(1);
     return string;
 }
 
-std::string Rtrim(std::string string) {
+inline std::string Rtrim(std::string string) {
     while (string.size() > 0 && (string[string.size()-1] == ' ' || string[string.size()-1] == '\n' || string[string.size()-1] == '\r' || string[string.size()-1] == '\t')) string = string.substr(0,string.size()-1);
     return string;
 }
 
-std::string Trim(std::string string) {
+inline std::string Trim(std::string string) {
     return Rtrim(Ltrim(string));
 }
 
-std::string ToLowerCase(const std::string& s) {
+inline std::string ToLowerCase(const std::string& s) {
     std::string result = s;
     std::transform(result.begin(), result.end(), result.begin(), (int (*)(int)) std::tolower);
     return result;
 }
 
 // Convert standard C style args to a vector of strings.
-Arguments ConvertArguments(int argc, char** argv) {
+inline Arguments ConvertArguments(int argc, char** argv) {
     Arguments args;
     for (int i=1; i<argc; ++i) {
         args.push_back(argv[i]);
@@ -89,13 +89,13 @@ Arguments ConvertArguments(int argc, char** argv) {
     return args;
 }
 
-void PrintArguments(Arguments args) {
+inline void PrintArguments(Arguments args) {
     for (auto& arg : args) {
         std::cout << arg << std::endl;
     }
 }
 
-Arguments StripFlags(Arguments args, std::map<std::string, std::string>* flags=nullptr) {
+inline Arguments StripFlags(Arguments args, std::map<std::string, std::string>* flags=nullptr) {
     std::pair<std::string, std::string> newFlag;
 
     for (int i=0; i<args.size(); ++i) {
@@ -138,7 +138,7 @@ Arguments StripFlags(Arguments args, std::map<std::string, std::string>* flags=n
 
     See https://wikipedia.org/Levenshtein_Distance
  */
-int LevenshteinDistance(std::string s, std::string t, bool ignoreCase) {
+inline int LevenshteinDistance(std::string s, std::string t, bool ignoreCase) {
     if (ignoreCase) {
         s = ToLowerCase(s);
         t = ToLowerCase(t);
@@ -204,65 +204,65 @@ struct TypeToEnum;
 
 template<>
 struct TypeToEnum<bool> {
-    static Types Value() { return Types::BOOL; }
-    static void Convert(bool& r, std::string value) { r = (value == "true") ? true : false;  }
-    static std::string From(bool v) { return (v) ? "true" : "false";  }
+    static inline Types Value() { return Types::BOOL; }
+    static inline void Convert(bool& r, std::string value) { r = (value == "true") ? true : false;  }
+    static inline std::string From(bool v) { return (v) ? "true" : "false";  }
 };
 
 template<>
 struct TypeToEnum<char> {
-    static Types Value() { return Types::CHAR; }
-    static void Convert(char& r, std::string value) { r = (value.size() > 0) ? value[0] : static_cast<char>(0); }
-    static std::string From(char c) { return std::string(1, c); }
+    static inline Types Value() { return Types::CHAR; }
+    static inline void Convert(char& r, std::string value) { r = (value.size() > 0) ? value[0] : static_cast<char>(0); }
+    static inline std::string From(char c) { return std::string(1, c); }
 };
 
 template<>
 struct TypeToEnum<int> {
-    static Types Value() { return Types::INT; }
-    static void Convert(int& r, std::string value) { r = std::stoi(value); }
-    static std::string From(int i) {return std::to_string(i); }
+    static inline Types Value() { return Types::INT; }
+    static inline void Convert(int& r, std::string value) { r = std::stoi(value); }
+    static inline std::string From(int i) {return std::to_string(i); }
 };
 
 template<>
 struct TypeToEnum<short> {
-    static Types Value() { return Types::INT; }
-    static void Convert(short& r, std::string value) { r = std::stoi(value); }
-    static std::string From(short i) {return std::to_string(i); }
+    static inline Types Value() { return Types::INT; }
+    static inline void Convert(short& r, std::string value) { r = std::stoi(value); }
+    static inline std::string From(short i) {return std::to_string(i); }
 };
 
 template<>
 struct TypeToEnum<long> {
-    static Types Value() { return Types::INT; }
-    static void Convert(long& r, std::string value) { r = std::stoi(value); }
-    static std::string From(long i) {return std::to_string(i); }
+    static inline Types Value() { return Types::INT; }
+    static inline void Convert(long& r, std::string value) { r = std::stoi(value); }
+    static inline std::string From(long i) {return std::to_string(i); }
 };
 
 template<>
 struct TypeToEnum<long long> {
-    static Types Value() { return Types::INT; }
-    static void Convert(long long& r, std::string value) { r = std::stoi(value); }
-    static std::string From(long long i) {return std::to_string(i); }
+    static inline Types Value() { return Types::INT; }
+    static inline void Convert(long long& r, std::string value) { r = std::stoi(value); }
+    static inline std::string From(long long i) {return std::to_string(i); }
 };
 
 template<>
 struct TypeToEnum<float> {
-    static Types Value() { return Types::FLOAT; }
-    static void Convert(float& r, std::string value) { r = std::stof(value); }
-    static std::string From(float i) {return std::to_string(i); }
+    static inline Types Value() { return Types::FLOAT; }
+    static inline void Convert(float& r, std::string value) { r = std::stof(value); }
+    static inline std::string From(float i) {return std::to_string(i); }
 };
 
 template<>
 struct TypeToEnum<double> {
-    static Types Value() { return Types::FLOAT; }
-    static void Convert(double& r, std::string value) { r = std::stof(value); }
-    static std::string From(double i) {return std::to_string(i); }
+    static inline Types Value() { return Types::FLOAT; }
+    static inline void Convert(double& r, std::string value) { r = std::stof(value); }
+    static inline std::string From(double i) {return std::to_string(i); }
 };
 
 template<>
 struct TypeToEnum<std::string> {
-    static Types Value() { return Types::STRING; }
-    static void Convert(std::string& r, std::string value) { r = value; }
-    static std::string From(std::string s) { return s; }
+    static inline Types Value() { return Types::STRING; }
+    static inline void Convert(std::string& r, std::string value) { r = value; }
+    static inline std::string From(std::string s) { return s; }
 };
 
 /**
@@ -282,7 +282,7 @@ struct Flag {
     // The bare value
     std::string BareValue;
 
-    std::string Usage() const {
+    inline std::string Usage() const {
         std::string result;
 
         result += "--" + Long;
@@ -302,7 +302,7 @@ struct Flag {
 
 class Flags {
 public:
-    void Add(Types type, std::string Long, std::string Short, std::string Description, std::function<void(std::string)> Setter) {
+    inline void Add(Types type, std::string Long, std::string Short, std::string Description, std::function<void(std::string)> Setter) {
         std::shared_ptr<Flag> flag = std::make_shared<Flag>();
 
         flag->Type = type;
@@ -317,7 +317,7 @@ public:
     }
 
     template<typename T>
-    void Add(std::string Long, std::string Short, T Default, std::string Description, std::function<void(std::string)> Setter) {
+    inline void Add(std::string Long, std::string Short, T Default, std::string Description, std::function<void(std::string)> Setter) {
         Add(TypeToEnum<T>::Value(), Long, Short, Description, Setter);
 
         // Set the bare value to the default
@@ -331,12 +331,12 @@ public:
         Method to set the provided reference to the parsed value.
      */
     template<typename T>
-    void Add(T& Reference, std::string Long, std::string Short, std::string Description) {
+    inline void Add(T& Reference, std::string Long, std::string Short, std::string Description) {
         Add(TypeToEnum<T>::Value(), Long, Short, Description, std::bind(TypeToEnum<T>::Convert, std::ref(Reference), std::placeholders::_1));
     }
 
     template<typename T>
-    void Add(T& Reference, std::string Long, std::string Short, T Default, std::string Description) {
+    inline void Add(T& Reference, std::string Long, std::string Short, T Default, std::string Description) {
         // Add the flag to the list
         Add(Reference, Long, Short, Description);
 
@@ -344,11 +344,11 @@ public:
         Reference = Default;
     }
 
-    void Add(std::shared_ptr<Flag> flag) {
+    inline void Add(std::shared_ptr<Flag> flag) {
         flags.push_back(std::move(flag));
     }
 
-    std::shared_ptr<Flag> Lookup(std::string name) {
+    inline std::shared_ptr<Flag> Lookup(std::string name) {
         auto it = std::find_if(flags.begin(), flags.end(), [&] (std::shared_ptr<Flag> f) {
             return f->Long == name;
         });
@@ -356,7 +356,7 @@ public:
         return (it != flags.end()) ? *it : nullptr;
     }
 
-    std::shared_ptr<const Flag> Lookup(std::string name) const {
+    inline std::shared_ptr<const Flag> Lookup(std::string name) const {
         auto it = std::find_if(flags.begin(), flags.end(), [&] (std::shared_ptr<Flag> f) {
             return f->Long == name;
         });
@@ -364,18 +364,18 @@ public:
         return (it != flags.end()) ? *it : nullptr;
     }
 
-    size_t Size() const { return flags.size(); }
+    inline size_t Size() const { return flags.size(); }
 
     typedef std::vector<std::shared_ptr<Flag>>::iterator   iterator_t;
     typedef std::vector<std::shared_ptr<Flag>>::const_iterator const_iterator_t;
 
-    iterator_t begin() { return flags.begin(); }
-    iterator_t end() { return flags.end(); }
+    inline iterator_t begin() { return flags.begin(); }
+    inline iterator_t end() { return flags.end(); }
 
-    const_iterator_t begin() const { return flags.begin(); }
-    const_iterator_t end() const { return flags.end(); }
+    inline const_iterator_t begin() const { return flags.begin(); }
+    inline const_iterator_t end() const { return flags.end(); }
 public:
-    void Parse(std::map<std::string, std::string> args) {
+    inline void Parse(std::map<std::string, std::string> args) {
         // Iterate over all flags
         for (auto& pair : args) {
             std::shared_ptr<Flag> flag;
@@ -473,18 +473,18 @@ public:
     // The subcommands are already sorted alphabetically.
     bool IsSorted;
 public:
-    Command() {
+    inline Command() {
         Output = &std::cout;
     }
 protected:
-    PointerType GetThisPointer() { return shared_from_this(); }
-    std::shared_ptr<const Command> GetThisPointer() const { return shared_from_this(); }
+    inline PointerType GetThisPointer() { return shared_from_this(); }
+    inline std::shared_ptr<const Command> GetThisPointer() const { return shared_from_this(); }
 public:
     /**
         Extract the name of a command from the usage line.
         It is either the first string or the whole.
      */
-    std::string Name() const {
+    inline std::string Name() const {
         auto pos = Use.find(" ");
         if (pos == std::string::npos) return Use;
         return Use.substr(0,pos);
@@ -494,7 +494,7 @@ public:
         Usage puts out the usage for the command.
         Used when a user provides invalid input.
      */
-    void Usage() {
+    inline void Usage() {
         std::stringstream ss;
 
         ss << "Usage:" << std::endl;
@@ -579,7 +579,7 @@ public:
         Help puts out the help for the command.
         Used when a user calls help [command].
      */
-    void Help() {
+    inline void Help() {
         std::stringstream ss;
 
         if (Short.size() > 0) {
@@ -600,7 +600,7 @@ public:
     /**
         Return all the flags that were inherited from parents
      */
-    Flags InheritedFlags() {
+    inline Flags InheritedFlags() {
         Flags result;
 
         std::function<void(PointerType)> rmerge = [&](PointerType cmd) {
@@ -620,7 +620,7 @@ public:
         return result;
     }
 
-    Flags FullFlags() {
+    inline Flags FullFlags() {
         MergePersistentFlags();
 
         Flags result = LocalFlags;
@@ -634,11 +634,11 @@ public:
         return result;
     }
 
-    bool HasAvailableFlags() {
+    inline bool HasAvailableFlags() {
         return FullFlags().Size() > 0;
     }
 
-    void MergePersistentFlags() {
+    inline void MergePersistentFlags() {
         std::function<void(PointerType)> rmerge = [&](PointerType cmd) {
             if (cmd->PersistentFlags.Size() > 0) {
                 for (auto& flag : cmd->PersistentFlags) {
@@ -656,7 +656,7 @@ public:
         rmerge(GetThisPointer());
     }
 
-    void SortSubCommands() {
+    inline void SortSubCommands() {
         // If the commands are sorted, return
         if (IsSorted) return;
 
@@ -669,7 +669,7 @@ public:
         IsSorted = true;
     }
 
-    std::string UsageString() {
+    inline std::string UsageString() {
         // Cache the old output
         std::ostream* tmpOutput = Output;
 
@@ -689,7 +689,7 @@ public:
     /**
         CommandPath returns the full path to this command.
      */
-    std::string CommandPath() const {
+    inline std::string CommandPath() const {
         std::string path = Name();
         auto x = GetThisPointer();
         while (x->Parent) {
@@ -702,7 +702,7 @@ public:
     /**
         UseLine puts out the full usage for a given command (including parents).
      */
-    std::string UseLine() const {
+    inline std::string UseLine() const {
         std::string line = "";
         if (Parent) {
             line = Parent->CommandPath() + " ";
@@ -710,22 +710,22 @@ public:
         return line + Use;
     }
 
-    bool HasAlias(std::string name) const {
+    inline bool HasAlias(std::string name) const {
         for (auto& alias : Aliases) {
             if (alias == name) return true;
         }
         return false;
     }
 
-    bool HasExample() const {
+    inline bool HasExample() const {
         return Example.size() > 0;
     }
 
-    bool IsRunnable() const {
+    inline bool IsRunnable() const {
         return (Run != nullptr);
     }
 
-    bool IsAvailableCommand() const {
+    inline bool IsAvailableCommand() const {
         if (Deprecated.size() > 0 || Hidden) return false;
 
         //if (Name() == "help") return false;
@@ -735,18 +735,18 @@ public:
         return false;
     }
 
-    bool HasSubCommands() const {
+    inline bool HasSubCommands() const {
         return Commands.size() > 0;
     }
 
-    bool HasAvailableSubCommands() const {
+    inline bool HasAvailableSubCommands() const {
         for (auto& cmd : Commands) {
             if (cmd->IsAvailableCommand()) return true;
         }
         return false;
     }
 
-    bool IsAdditionalHelpTopicCommand() const {
+    inline bool IsAdditionalHelpTopicCommand() const {
         if (IsRunnable() || Deprecated.size() > 0 || Hidden) return false;
 
         // if any non-help sub command is found, the command is not a 'help' command
@@ -757,7 +757,7 @@ public:
         return true;
     }
 
-    bool HasHelpSubCommands() const {
+    inline bool HasHelpSubCommands() const {
         for (auto& cmd : Commands) {
             if (cmd->IsAdditionalHelpTopicCommand()) return true;
         }
@@ -765,7 +765,7 @@ public:
         return false;
     }
 
-    std::vector<std::string> SuggestionsFor(std::string name) const {
+    inline std::vector<std::string> SuggestionsFor(std::string name) const {
         std::vector<std::string> suggestions;
 
         for (auto& cmd : Commands) {
@@ -782,7 +782,7 @@ public:
         return suggestions;
     }
 public:
-    void AddCommand(PointerType cmd) {
+    inline void AddCommand(PointerType cmd) {
         IsSorted = false;
         cmd->Parent = GetThisPointer();
         Commands.push_back(cmd);
@@ -790,7 +790,7 @@ public:
         SortSubCommands();
     }
 
-    void InjectHelpCommand() {
+    inline void InjectHelpCommand() {
         auto root = Root();
 
         auto cmdHelp = std::make_shared<Command>();
@@ -809,7 +809,7 @@ public:
         root->AddCommand(std::move(cmdHelp));
     }
 
-    std::shared_ptr<Command> Find(Arguments& args) {
+    inline std::shared_ptr<Command> Find(Arguments& args) {
         PointerType tmp = GetThisPointer();
 
         while (true) {
@@ -841,7 +841,7 @@ public:
         return tmp;
     }
 
-    void ExecutePersistentPreHooks(Arguments args) const {
+    inline void ExecutePersistentPreHooks(Arguments args) const {
         std::vector<PrePostHookType> hooks;
 
         // Collect all persistent pre hooks
@@ -858,7 +858,7 @@ public:
         }
     }
 
-    void ExecutePersistentPostHooks(Arguments args) const {
+    inline void ExecutePersistentPostHooks(Arguments args) const {
         // Collect all persistent pre hooks
         auto tmp = GetThisPointer();
 
@@ -868,7 +868,7 @@ public:
         }
     }
 
-    int Execute(Arguments args) {
+    inline int Execute(Arguments args) {
         // Inject the help command into the root command
         InjectHelpCommand();
 
@@ -946,19 +946,19 @@ public:
         }
     }
 
-    int Execute(int argc, char** argv) {
+    inline int Execute(int argc, char** argv) {
         // Convert the arguments
         Arguments args = ConvertArguments(argc, argv);
 
         return Execute(args);
     }
 public:
-    PointerType Root() {
+    inline PointerType Root() {
         if (!Parent) return GetThisPointer();
         return Parent->Root();
     }
 
-    std::shared_ptr<const Command> Root() const {
+    inline std::shared_ptr<const Command> Root() const {
         // No parent? Then this is the root
         if (!Parent) return GetThisPointer();
         return Parent->Root();
@@ -1185,7 +1185,7 @@ public:
     void PersistentPostRun(const Arguments& args) {
         // do nothing
     }
-    
+
     void Help() {
         data->Help();
     }
