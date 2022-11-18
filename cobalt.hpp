@@ -191,7 +191,12 @@ namespace detail {
  */
 enum class Types {
     BOOL,
-    INT,
+    INT64,
+    UINT64,
+    INT32,
+    UINT32,
+    INT16,
+    UINT16,
     FLOAT,
     CHAR,
     STRING,
@@ -218,30 +223,58 @@ struct TypeToEnum<char> {
 
 template<>
 struct TypeToEnum<int> {
-    static inline Types Value() { return Types::INT; }
+    static inline Types Value() { return Types::INT32; }
     static inline void Convert(int& r, std::string value) { r = std::stoi(value); }
     static inline std::string From(int i) {return std::to_string(i); }
 };
 
 template<>
+struct TypeToEnum<unsigned int> {
+    static inline Types Value() { return Types::UINT32; }
+    static inline void Convert(char& r, std::string value) { r = std::stoul(value); }
+    static inline std::string From(char c) { return std::string(1, c); }
+};
+
+template<>
 struct TypeToEnum<short> {
-    static inline Types Value() { return Types::INT; }
+    static inline Types Value() { return Types::INT16; }
     static inline void Convert(short& r, std::string value) { r = std::stoi(value); }
     static inline std::string From(short i) {return std::to_string(i); }
 };
 
 template<>
+struct TypeToEnum<unsigned short> {
+    static inline Types Value() { return Types::UINT16; }
+    static inline void Convert(unsigned short& r, std::string value) { r = std::stoul(value); }
+    static inline std::string From(unsigned short i) {return std::to_string(i); }
+};
+
+template<>
 struct TypeToEnum<long> {
-    static inline Types Value() { return Types::INT; }
-    static inline void Convert(long& r, std::string value) { r = std::stoi(value); }
+    static inline Types Value() { return Types::INT32; }
+    static inline void Convert(long& r, std::string value) { r = std::stol(value); }
     static inline std::string From(long i) {return std::to_string(i); }
 };
 
 template<>
+struct TypeToEnum<unsigned long> {
+    static inline Types Value() { return Types::INT32; }
+    static inline void Convert(unsigned long& r, std::string value) { r = std::stoul(value); }
+    static inline std::string From(unsigned long i) {return std::to_string(i); }
+};
+
+template<>
 struct TypeToEnum<long long> {
-    static inline Types Value() { return Types::INT; }
+    static inline Types Value() { return Types::INT64; }
     static inline void Convert(long long& r, std::string value) { r = std::stoi(value); }
     static inline std::string From(long long i) {return std::to_string(i); }
+};
+
+template<>
+struct TypeToEnum<unsigned long long> {
+    static inline Types Value() { return Types::UINT64; }
+    static inline void Convert(unsigned long long& r, std::string value) { r = std::stoull(value); }
+    static inline std::string From(unsigned long long i) {return std::to_string(i); }
 };
 
 template<>
